@@ -1,6 +1,7 @@
 import { Injectable, ConflictException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 import { User } from './entities/user';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -35,11 +36,9 @@ export class UsersService {
 
     async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
         const user = await this.findById(id);
-        if (updateUserDto.Email && updateUserDto.Email !== user.Email) {
-            const existing = await this.userRepository.findOne({ where: { Email: updateUserDto.Email } });
-            if (existing) {
-                throw new ConflictException('Email já cadastrado');
-            }
+        if (updateUserDto.Password) {
+            const salt = await bcrypt.genSalt(10);
+            updateUserDto.Password = await bcrypt.hash(updateUserDto.Password, salt);
         }
         Object.assign(user, updateUserDto);
         return this.userRepository.save(user);

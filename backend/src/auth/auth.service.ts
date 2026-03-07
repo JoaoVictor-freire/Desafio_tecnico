@@ -23,7 +23,7 @@ export class AuthService {
 
     async login(email: string, password: string) {
         const user = await this.usersService.findByEmail(email);
-        if (!user) {
+        if (!user || !user.Password || !password) {
             throw new UnauthorizedException('Credenciais inválidas');
         }
         const isMatch = await bcrypt.compare(password, user.Password);
@@ -33,6 +33,8 @@ export class AuthService {
         const payload = { email: user.Email, sub: user.IdUser };
         return {
             access_token: this.jwtService.sign(payload),
+            name: user.Name,
+            avatar: user.Avatar || '1',
         };
     }
 

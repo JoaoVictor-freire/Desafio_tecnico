@@ -15,6 +15,9 @@ export class User {
     @Column({length: 100})
     Password: string;
 
+    @Column({ length: 10, nullable: true, default: '1' })
+    Avatar: string;
+
     @OneToMany(() => Pokemon, pokemon => pokemon.user)
     Pokemons: Pokemon[];
 }
