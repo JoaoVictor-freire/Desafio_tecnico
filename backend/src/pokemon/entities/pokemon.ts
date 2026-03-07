@@ -19,7 +19,7 @@ export class Pokemon {
     Level: number;
 
     @Column({type: 'smallint'})
-    HP: number;
+    Health: number;
 
     @ManyToOne(() => User, user => user.Pokemons, {onDelete: 'CASCADE'})
     @JoinColumn ({ name: 'IdUser' })
