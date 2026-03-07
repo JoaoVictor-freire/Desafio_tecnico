@@ -40,6 +40,8 @@ export const api = {
             ),
         login: (body: LoginPayload) =>
             request<AuthTokenResponse>('/auth/login', { method: 'POST', body: JSON.stringify(body) }),
+        logout: () =>
+            request<{ message: string }>('/auth/logout', { method: 'POST' }),
     },
     users: {
         update: (id: number, body: Partial<RegisterPayload>) =>

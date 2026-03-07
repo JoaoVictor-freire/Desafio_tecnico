@@ -23,8 +23,17 @@ export function useAuth() {
         localStorage.setItem('userEmail', payload.email);
     }
 
-    function logout(): void {
-        localStorage.clear();
+    async function logout(): Promise<void> {
+        try {
+            if (typeof window !== 'undefined' && localStorage.getItem('token')) {
+                const { api } = await import('../services/api');
+                await api.auth.logout();
+            }
+        } catch {
+            // ignore — token may already be invalid
+        } finally {
+            if (typeof window !== 'undefined') localStorage.clear();
+        }
     }
 
     return { isAuthenticated, getUser, saveSession, logout };

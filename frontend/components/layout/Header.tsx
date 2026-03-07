@@ -13,9 +13,9 @@ export function Header({ userEmail }: HeaderProps) {
     const router = useRouter();
     const { logout } = useAuth();
 
-    function handleLogout() {
-        logout();
-        router.push('/login');
+    async function handleLogout() {
+        await logout();
+        router.push('/');
     }
 
     return (
