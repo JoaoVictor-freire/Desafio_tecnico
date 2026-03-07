@@ -2,7 +2,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { UsersService } from '../users/users.service';
-import { CreateUserDto } from '../users/dto/create-user.dto';
+import { RegisterDto } from './dto/register.dto';
 
 @Injectable()
 export class AuthService {
@@ -11,36 +11,34 @@ export class AuthService {
         private usersService: UsersService,
     ) {}
 
-    async register(createUserDto: CreateUserDto) {
-        const hashedPassword = await this.hashPassword(createUserDto.Password);
+    async register(registerDto: RegisterDto) {
+        const hashedPassword = await this.hashPassword(registerDto.Password);
         const user = await this.usersService.create({
-            ...createUserDto,
+            ...registerDto,
             Password: hashedPassword,
         });
         const { Password, ...result } = user;
         return result;
     }
 
-    async hashPassword(password: string) : Promise<string> {
-        const salt = await bcrypt.genSalt(10);
-        return bcrypt.hash(password,salt);
-    }
-
-    async validateUser(email: string, password: string, userFromDb: any) {
-        const isMatch = await bcrypt.compare(password, userFromDb.password);
-
-        if (userFromDb && isMatch) {
-            const { password, ...result } = userFromDb;
-            return result;
+    async login(email: string, password: string) {
+        const user = await this.usersService.findByEmail(email);
+        if (!user) {
+            throw new UnauthorizedException('Credenciais inválidas');
         }
-        throw new UnauthorizedException('Invalid credentials');
-    }
-
-    async login(user: any) {
-        const payload = { email: user.email, sub: user.id};
+        const isMatch = await bcrypt.compare(password, user.Password);
+        if (!isMatch) {
+            throw new UnauthorizedException('Credenciais inválidas');
+        }
+        const payload = { email: user.Email, sub: user.IdUser };
         return {
             access_token: this.jwtService.sign(payload),
-        }
+        };
+    }
+
+    async hashPassword(password: string): Promise<string> {
+        const salt = await bcrypt.genSalt(10);
+        return bcrypt.hash(password, salt);
     }
 
 }
