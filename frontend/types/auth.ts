@@ -11,9 +11,19 @@ export interface LoginPayload {
 
 export interface AuthTokenResponse {
     access_token: string;
+    name: string;
+    avatar: string;
 }
 
 export interface AuthUser {
     userId: number;
     userEmail: string;
+    userName: string;
+    userAvatar: string;
+}
+
+export interface UpdateUserPayload {
+    Name?: string;
+    Password?: string;
+    Avatar?: string;
 }

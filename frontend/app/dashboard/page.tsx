@@ -8,7 +8,7 @@ import { PokemonDashboard } from '../../components/pokemon/PokemonDashboard';
 export default function DashboardPage() {
     const router = useRouter();
     const { isAuthenticated, getUser } = useAuth();
-    const [user, setUser] = useState<{ userId: number; userEmail: string } | null>(null);
+    const [user, setUser] = useState<{ userId: number; userEmail: string; userName: string; userAvatar: string } | null>(null);
 
     useEffect(() => {
         if (!isAuthenticated()) {
@@ -20,5 +20,5 @@ export default function DashboardPage() {
 
     if (!user) return null;
 
-    return <PokemonDashboard userId={user.userId} userEmail={user.userEmail} />;
+    return <PokemonDashboard userId={user.userId} userName={user.userName} userAvatar={user.userAvatar} />;
 }

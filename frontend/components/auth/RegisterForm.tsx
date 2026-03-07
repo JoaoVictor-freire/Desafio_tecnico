@@ -14,10 +14,16 @@ export function RegisterForm() {
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
 
-    async function handleSubmit(e: React.FormEvent) {
+    async function handleSubmit(e: React.SyntheticEvent<HTMLFormElement>) {
         e.preventDefault();
         setError('');
         setSuccess('');
+
+        if (!/[A-Z]/.test(password)) { setError('A SENHA DEVE TER PELO MENOS UMA LETRA MAIÚSCULA'); return; }
+        if (!/[0-9]/.test(password)) { setError('A SENHA DEVE TER PELO MENOS UM NÚMERO'); return; }
+        if (!/[!@#$%^&*()_+\-=[\]{}|;:,.<>?]/.test(password)) { setError('A SENHA DEVE TER PELO MENOS UM CARACTERE ESPECIAL'); return; }
+        if (password.length < 8) { setError('A SENHA DEVE TER PELO MENOS 8 CARACTERES'); return; }
+
         try {
             await api.auth.register({ Name: name, Email: email, Password: password });
             setSuccess('TREINADOR REGISTRADO! REDIRECIONANDO...');
@@ -61,6 +67,9 @@ export function RegisterForm() {
                     <div style={{ marginBottom: '20px' }}>
                         <label style={px.label}>SENHA</label>
                         <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required style={px.input} />
+                        <p style={{ fontSize: '6px', color: colors.muted, marginTop: '6px', lineHeight: 2 }}>
+                            MÍN. 8 CHARS • 1 MAIÚSCULA • 1 NÚMERO • 1 ESPECIAL (!@#$%...)
+                        </p>
                     </div>
                     <button type="submit" style={{ ...px.btn, ...px.btnPrimary, width: '100%' }}>
                         REGISTRAR

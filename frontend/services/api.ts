@@ -1,4 +1,4 @@
-import { RegisterPayload, LoginPayload, AuthTokenResponse } from '../types/auth';
+import { RegisterPayload, LoginPayload, AuthTokenResponse, UpdateUserPayload } from '../types/auth';
 import { Pokemon, CreatePokemonPayload, UpdatePokemonPayload } from '../types/pokemon';
 
 const API_URL = 'http://localhost:3002';
@@ -44,7 +44,9 @@ export const api = {
             request<{ message: string }>('/auth/logout', { method: 'POST' }),
     },
     users: {
-        update: (id: number, body: Partial<RegisterPayload>) =>
+        getProfile: (id: number) =>
+            request<{ IdUser: number; Name: string; Email: string; Avatar: string }>(`/users/${id}`),
+        update: (id: number, body: UpdateUserPayload) =>
             request(`/users/${id}`, { method: 'PATCH', body: JSON.stringify(body) }),
         remove: (id: number) =>
             request(`/users/${id}`, { method: 'DELETE' }),

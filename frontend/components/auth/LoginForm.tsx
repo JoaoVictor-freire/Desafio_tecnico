@@ -14,12 +14,12 @@ export function LoginForm() {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
 
-    async function handleSubmit(e: React.FormEvent) {
+    async function handleSubmit(e: React.SyntheticEvent<HTMLFormElement>) {
         e.preventDefault();
         setError('');
         try {
             const data = await api.auth.login({ Email: email, Password: password });
-            saveSession(data.access_token);
+            saveSession(data);
             router.push('/dashboard');
         } catch (err: any) {
             setError(err.message);

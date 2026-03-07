@@ -8,7 +8,7 @@ import { PokemonCapture } from '../../components/pokemon/PokemonCapture';
 export default function CapturePage() {
     const router = useRouter();
     const { isAuthenticated, getUser } = useAuth();
-    const [user, setUser] = useState<{ userId: number; userEmail: string } | null>(null);
+    const [user, setUser] = useState<{ userId: number; userEmail: string; userName: string; userAvatar: string } | null>(null);
 
     useEffect(() => {
         if (!isAuthenticated()) {
@@ -20,5 +20,5 @@ export default function CapturePage() {
 
     if (!user) return null;
 
-    return <PokemonCapture userId={user.userId} userEmail={user.userEmail} />;
+    return <PokemonCapture userId={user.userId} userName={user.userName} userAvatar={user.userAvatar} />;
 }

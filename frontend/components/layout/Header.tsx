@@ -4,12 +4,14 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../../hooks/useAuth';
 import { colors, px } from '../../lib/pixelStyle';
+import { TrainerAvatar } from '../../lib/trainers';
 
 interface HeaderProps {
-    userEmail: string;
+    userName: string;
+    userAvatar: string;
 }
 
-export function Header({ userEmail }: HeaderProps) {
+export function Header({ userName, userAvatar }: HeaderProps) {
     const router = useRouter();
     const { logout } = useAuth();
 
@@ -35,7 +37,20 @@ export function Header({ userEmail }: HeaderProps) {
             </Link>
 
             <div className="flex items-center gap-4">
-                <span style={{ color: colors.muted, fontSize: '7px' }}>{userEmail}</span>
+                {/* Trainer icon + name */}
+                <div className="flex items-center gap-2">
+                    <TrainerAvatar trainerId={userAvatar} size={28} />
+                    <span style={{ color: colors.muted, fontSize: '7px' }}>{userName.toUpperCase()}</span>
+                </div>
+
+                {/* Profile button */}
+                <Link
+                    href="/profile"
+                    style={{ ...px.btn, ...px.btnSecondary, fontSize: '7px', padding: '6px 10px', textDecoration: 'none' }}
+                >
+                    PERFIL
+                </Link>
+
                 <button
                     onClick={handleLogout}
                     style={{ ...px.btn, ...px.btnDanger, fontSize: '7px', padding: '6px 10px' }}

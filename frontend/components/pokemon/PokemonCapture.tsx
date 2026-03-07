@@ -17,14 +17,15 @@ interface WildPokemon {
 
 interface PokemonCaptureProps {
     userId: number;
-    userEmail: string;
+    userName: string;
+    userAvatar: string;
 }
 
 // Gen-I only (1–151) — FireRed pokédex
 const GEN1_COUNT = 151;
 const PAGE_SIZE = 12;
 
-export function PokemonCapture({ userId, userEmail }: PokemonCaptureProps) {
+export function PokemonCapture({ userId, userName, userAvatar }: PokemonCaptureProps) {
     const router = useRouter();
     const [wildPokemon, setWildPokemon] = useState<WildPokemon[]>([]);
     const [loading, setLoading] = useState(true);
@@ -90,7 +91,7 @@ export function PokemonCapture({ userId, userEmail }: PokemonCaptureProps) {
 
     return (
         <div className="min-h-screen" style={{ background: colors.bg, ...px.font }}>
-            <Header userEmail={userEmail} />
+            <Header userName={userName} userAvatar={userAvatar} />
 
             <main className="max-w-6xl mx-auto px-4 py-8">
                 <div className="flex justify-between items-center" style={{ marginBottom: '20px' }}>

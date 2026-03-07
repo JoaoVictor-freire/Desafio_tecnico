@@ -1,4 +1,4 @@
-import { AuthUser } from '../types/auth';
+import { AuthUser, AuthTokenResponse } from '../types/auth';
 
 export function useAuth() {
     function isAuthenticated(): boolean {
@@ -13,14 +13,24 @@ export function useAuth() {
         return {
             userId: Number(localStorage.getItem('userId')),
             userEmail: localStorage.getItem('userEmail') || '',
+            userName: localStorage.getItem('userName') || 'TRAINER',
+            userAvatar: localStorage.getItem('userAvatar') || '1',
         };
     }
 
-    function saveSession(token: string): void {
-        const payload = JSON.parse(atob(token.split('.')[1]));
-        localStorage.setItem('token', token);
+    function saveSession(data: AuthTokenResponse): void {
+        const payload = JSON.parse(atob(data.access_token.split('.')[1]));
+        localStorage.setItem('token', data.access_token);
         localStorage.setItem('userId', String(payload.sub));
         localStorage.setItem('userEmail', payload.email);
+        localStorage.setItem('userName', data.name);
+        localStorage.setItem('userAvatar', data.avatar);
+    }
+
+    function updateLocalProfile(name: string, avatar: string): void {
+        if (typeof window === 'undefined') return;
+        localStorage.setItem('userName', name);
+        localStorage.setItem('userAvatar', avatar);
     }
 
     async function logout(): Promise<void> {
@@ -36,5 +46,5 @@ export function useAuth() {
         }
     }
 
-    return { isAuthenticated, getUser, saveSession, logout };
+    return { isAuthenticated, getUser, saveSession, updateLocalProfile, logout };
 }
