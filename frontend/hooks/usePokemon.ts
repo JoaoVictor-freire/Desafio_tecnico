@@ -4,20 +4,22 @@ import { useState, useEffect } from 'react';
 import { api } from '../services/api';
 import { Pokemon, CreatePokemonPayload, UpdatePokemonPayload } from '../types/pokemon';
 
-export function usePokemon(userId: number) {
+export function usePokemon(userId: number, filter: 'all' | 'mine') {
     const [pokemons, setPokemons] = useState<Pokemon[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
     useEffect(() => {
-        if (userId) load();
-    }, [userId]);
+        load();
+    }, [filter]);
 
     async function load() {
         try {
             setLoading(true);
             setError('');
-            const data = await api.pokemon.findAllByUser(userId);
+            const data = filter === 'mine'
+                ? await api.pokemon.findAllByUser(userId)
+                : await api.pokemon.findAll();
             setPokemons(data);
         } catch (err: any) {
             setError(err.message);

@@ -4,11 +4,12 @@ import { colors, px } from '../../lib/pixelStyle';
 
 interface PokemonListProps {
     pokemons: Pokemon[];
+    currentUserId: number;
     onEdit: (pokemon: Pokemon) => void;
     onDelete: (id: number) => void;
 }
 
-export function PokemonList({ pokemons, onEdit, onDelete }: PokemonListProps) {
+export function PokemonList({ pokemons, currentUserId, onEdit, onDelete }: PokemonListProps) {
     if (pokemons.length === 0) {
         return (
             <div style={{ textAlign: 'center', padding: '60px 0' }}>
@@ -26,6 +27,7 @@ export function PokemonList({ pokemons, onEdit, onDelete }: PokemonListProps) {
                 <PokemonCard
                     key={pokemon.IdPokemon}
                     pokemon={pokemon}
+                    isOwner={pokemon.IdUser === currentUserId}
                     onEdit={onEdit}
                     onDelete={onDelete}
                 />

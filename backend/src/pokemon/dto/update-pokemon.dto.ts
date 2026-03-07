@@ -19,4 +19,10 @@ export class UpdatePokemonDto {
     @IsInt()
     @Min(1)
     Health?: number;
+
+    @IsOptional()
+    @IsInt()
+    @Min(1)
+    @Max(151)
+    PokedexId?: number;
 }

@@ -25,7 +25,7 @@ export function Header({ userName, userAvatar }: HeaderProps) {
             className="sticky top-0 z-50 flex items-center justify-between px-6 py-3"
             style={{ background: colors.dark, borderBottom: '4px solid #000', ...px.font }}
         >
-            <Link href="/" className="flex items-center gap-3" style={{ textDecoration: 'none' }}>
+            <Link href="/dashboard" className="flex items-center gap-3" style={{ textDecoration: 'none' }}>
                 <svg width="24" height="24" viewBox="0 0 28 28" fill="none">
                     <circle cx="14" cy="14" r="13" fill="white" stroke="white" strokeWidth="2"/>
                     <path d="M1 14 Q1 1 14 1 Q27 1 27 14Z" fill="#e3342f"/>

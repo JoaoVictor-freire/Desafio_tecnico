@@ -188,6 +188,34 @@ export function ProfileForm({ userId, initialName, initialAvatar, onAvatarChange
                     </button>
                 </div>
             </form>
+
+            {/* Excluir conta */}
+            <div style={{ ...px.card, background: '#fff0f0', padding: '20px', marginTop: '32px', borderColor: colors.error }}>
+                <p style={{ fontSize: '9px', color: colors.error, marginBottom: '8px' }}>ZONA DE PERIGO</p>
+                <p style={{ fontSize: '7px', color: colors.muted, marginBottom: '12px' }}>
+                    ESTA AÇÃO É IRREVERSÍVEL. TODOS OS SEUS POKÉMONS SERÃO LIBERADOS.
+                </p>
+                <button
+                    type="button"
+                    disabled={loading}
+                    onClick={async () => {
+                        if (!confirm('TEM CERTEZA QUE DESEJA EXCLUIR SUA CONTA? TODOS OS SEUS DADOS SERÃO PERDIDOS PERMANENTEMENTE.')) return;
+                        setLoading(true);
+                        setError('');
+                        try {
+                            await api.users.remove(userId);
+                            localStorage.clear();
+                            router.push('/');
+                        } catch (err: any) {
+                            setError(err.message || 'ERRO AO EXCLUIR CONTA');
+                            setLoading(false);
+                        }
+                    }}
+                    style={{ ...px.btn, ...px.btnDanger, fontSize: '7px', opacity: loading ? 0.6 : 1 }}
+                >
+                    EXCLUIR MINHA CONTA
+                </button>
+            </div>
         </div>
     );
 }

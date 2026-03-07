@@ -17,6 +17,15 @@ export class PokemonService {
         return this.pokemonRepository.save(pokemon);
     }
 
+    async findAll(): Promise<Pokemon[]> {
+        return this.pokemonRepository
+            .createQueryBuilder('p')
+            .leftJoin('p.user', 'u')
+            .addSelect(['u.Name'])
+            .orderBy('p.IdPokemon', 'DESC')
+            .getMany();
+    }
+
     async findAllByUser(userId: number): Promise<Pokemon[]> {
         return this.pokemonRepository.find({ where: { IdUser: userId } });
     }

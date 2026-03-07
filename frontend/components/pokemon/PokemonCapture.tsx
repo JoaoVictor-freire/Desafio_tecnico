@@ -81,6 +81,7 @@ export function PokemonCapture({ userId, userName, userAvatar }: PokemonCaptureP
                 Type: pokemon.type,
                 Level: pokemon.level,
                 Health: pokemon.health,
+                PokedexId: pokemon.id,
             });
             router.push('/dashboard');
         } catch (err: any) {

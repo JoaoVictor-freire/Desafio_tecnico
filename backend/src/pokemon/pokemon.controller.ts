@@ -16,6 +16,12 @@ export class PokemonController {
         return this.pokemonService.create(createPokemonDto);
     }
 
+    @Get()
+    @UseGuards(JwtAuthGuard)
+    async findAll() {
+        return this.pokemonService.findAll();
+    }
+
     @Get('user/:userId')
     @UseGuards(JwtAuthGuard)
     async findAllByUser(@Param('userId', ParseIntPipe) userId: number, @Request() req) {
@@ -27,12 +33,8 @@ export class PokemonController {
 
     @Get(':id')
     @UseGuards(JwtAuthGuard)
-    async findOne(@Param('id', ParseIntPipe) id: number, @Request() req) {
-        const pokemon = await this.pokemonService.findOne(id);
-        if (pokemon.IdUser !== req.user.IdUser) {
-            throw new ForbiddenException('Este pokémon não pertence a você');
-        }
-        return pokemon;
+    async findOne(@Param('id', ParseIntPipe) id: number) {
+        return this.pokemonService.findOne(id);
     }
 
     @Patch(':id')

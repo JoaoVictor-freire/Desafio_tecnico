@@ -5,6 +5,8 @@ export interface Pokemon {
     Type: string;
     Level: number;
     Health: number;
+    PokedexId?: number;
+    user?: { Name: string };
 }
 
 export interface CreatePokemonPayload {
@@ -12,6 +14,7 @@ export interface CreatePokemonPayload {
     Type: string;
     Level: number;
     Health: number;
+    PokedexId?: number;
 }
 
 export interface UpdatePokemonPayload {

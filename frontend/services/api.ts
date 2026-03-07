@@ -54,6 +54,8 @@ export const api = {
     pokemon: {
         create: (body: CreatePokemonPayload) =>
             request<Pokemon>('/pokemon', { method: 'POST', body: JSON.stringify(body) }),
+        findAll: () =>
+            request<Pokemon[]>('/pokemon'),
         findAllByUser: (userId: number) =>
             request<Pokemon[]>(`/pokemon/user/${userId}`),
         findOne: (id: number) =>

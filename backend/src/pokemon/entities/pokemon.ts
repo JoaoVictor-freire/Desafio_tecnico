@@ -21,6 +21,9 @@ export class Pokemon {
     @Column({type: 'smallint'})
     Health: number;
 
+    @Column({ type: 'smallint', nullable: true })
+    PokedexId: number;
+
     @ManyToOne(() => User, user => user.Pokemons, {onDelete: 'CASCADE'})
     @JoinColumn ({ name: 'IdUser' })
     user: User;

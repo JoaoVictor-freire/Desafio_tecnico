@@ -37,16 +37,30 @@ function getSpriteId(name: string): number {
 
 interface PokemonCardProps {
     pokemon: Pokemon;
+    isOwner: boolean;
     onEdit: (pokemon: Pokemon) => void;
     onDelete: (id: number) => void;
 }
 
-export function PokemonCard({ pokemon, onEdit, onDelete }: PokemonCardProps) {
+export function PokemonCard({ pokemon, isOwner, onEdit, onDelete }: PokemonCardProps) {
     const ts = getTypeStyle(pokemon.Type);
     const spriteId = getSpriteId(pokemon.Name);
 
     return (
-        <div className="flex flex-col overflow-hidden" style={{ ...px.card, background: ts.bg }}>
+        <div className="flex flex-col overflow-hidden" style={{ ...px.card, background: ts.bg, position: 'relative' }}>
+            {/* Pokédex ID */}
+            {pokemon.PokedexId && (
+                <span style={{
+                    position: 'absolute',
+                    top: '6px',
+                    left: '8px',
+                    fontSize: '8px',
+                    color: '#000',
+                    fontWeight: 'bold',
+                    zIndex: 1,
+                }}>#{pokemon.PokedexId}</span>
+            )}
+
             {/* Sprite */}
             <div className="flex items-center justify-center" style={{ padding: '16px', minHeight: '100px' }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -61,6 +75,10 @@ export function PokemonCard({ pokemon, onEdit, onDelete }: PokemonCardProps) {
             <div style={{ padding: '0 12px 12px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
                 <p style={{ fontSize: '10px', color: colors.dark }}>{pokemon.Name.toUpperCase()}</p>
 
+                {pokemon.user?.Name && (
+                    <p style={{ fontSize: '6px', color: ts.accent, opacity: 0.7 }}>TREINADOR: {pokemon.user.Name.toUpperCase()}</p>
+                )}
+
                 <span style={{ ...px.badge, color: ts.accent }}>{pokemon.Type.toUpperCase()}</span>
 
                 <div className="flex justify-between" style={{ fontSize: '7px', color: ts.accent }}>
@@ -73,14 +91,16 @@ export function PokemonCard({ pokemon, onEdit, onDelete }: PokemonCardProps) {
                     <div style={{ background: colors.green, height: '100%', width: `${Math.min(pokemon.Health, 100)}%` }} />
                 </div>
 
-                <div className="flex gap-2" style={{ marginTop: '4px' }}>
-                    <button onClick={() => onEdit(pokemon)} style={{ ...px.btn, ...px.btnSecondary, flex: 1, fontSize: '7px', padding: '6px' }}>
-                        EDITAR
-                    </button>
-                    <button onClick={() => onDelete(pokemon.IdPokemon)} style={{ ...px.btn, ...px.btnDanger, flex: 1, fontSize: '7px', padding: '6px' }}>
-                        LIBERAR
-                    </button>
-                </div>
+                {isOwner && (
+                    <div className="flex gap-2" style={{ marginTop: '4px' }}>
+                        <button onClick={() => onEdit(pokemon)} style={{ ...px.btn, ...px.btnSecondary, flex: 1, fontSize: '7px', padding: '6px' }}>
+                            EDITAR
+                        </button>
+                        <button onClick={() => onDelete(pokemon.IdPokemon)} style={{ ...px.btn, ...px.btnDanger, flex: 1, fontSize: '7px', padding: '6px' }}>
+                            LIBERAR
+                        </button>
+                    </div>
+                )}
             </div>
         </div>
     );
