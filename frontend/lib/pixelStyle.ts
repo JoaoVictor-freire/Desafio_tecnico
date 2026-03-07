@@ -1,7 +1,5 @@
 import React from 'react';
 
-/* ── Shared pixel-art design tokens ── */
-
 export const colors = {
   bg:      '#ddd8b0',
   dark:    '#1a1c2c',

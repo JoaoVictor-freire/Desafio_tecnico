@@ -39,6 +39,18 @@ npm install
 
 ---
 
+## Banco de dados
+
+Na raiz do projeto existe o arquivo `init.sql` com o script de criação das tabelas. Execute-o no seu PostgreSQL antes de iniciar o backend:
+
+```bash
+psql -h seu_host -U seu_usuario -d seu_banco -f init.sql
+```
+
+> **Nota:** o backend usa `synchronize: true` no TypeORM, então as tabelas também são criadas automaticamente ao iniciar a aplicação. O script serve como referência ou para ambientes onde se prefira criar o schema manualmente.
+
+---
+
 ## Executando
 
 ```bash

@@ -21,7 +21,6 @@ interface PokemonCaptureProps {
     userAvatar: string;
 }
 
-// Gen-I only (1–151) — FireRed pokédex
 const GEN1_COUNT = 151;
 const PAGE_SIZE = 12;
 
@@ -40,7 +39,6 @@ export function PokemonCapture({ userId, userName, userAvatar }: PokemonCaptureP
         setLoading(true);
         setError('');
         try {
-            // Pick PAGE_SIZE random Gen-I ids
             const ids = new Set<number>();
             while (ids.size < PAGE_SIZE) {
                 ids.add(Math.floor(Math.random() * GEN1_COUNT) + 1);
@@ -52,7 +50,6 @@ export function PokemonCapture({ userId, userName, userAvatar }: PokemonCaptureP
                     const data = await res.json();
                     const types = data.types.map((t: any) => t.type.name).join('/');
                     const hp = data.stats.find((s: any) => s.stat.name === 'hp')?.base_stat || 50;
-                    // Random level between 1–100
                     const level = Math.floor(Math.random() * 100) + 1;
                     return {
                         id: data.id,

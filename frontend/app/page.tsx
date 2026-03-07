@@ -72,7 +72,6 @@ export default function Home() {
               className="grid grid-cols-2 md:grid-cols-3 gap-3"
               style={{ gridAutoRows: "200px" }}
             >
-              {/* [0] CHARIZARD — large, row-span 2 */}
               <div
                 className="row-span-2 relative flex flex-col justify-between p-4 cursor-pointer group overflow-hidden"
                 style={{ background: CARDS[0].bg, ...px.card }}
@@ -90,7 +89,6 @@ export default function Home() {
                 <span style={{ ...px.badge, color: CARDS[0].accent }}>{CARDS[0].type}</span>
               </div>
 
-              {/* [1] PIKACHU */}
               <div
                 className="relative flex flex-col justify-between p-4 cursor-pointer group overflow-hidden"
                 style={{ background: CARDS[1].bg, ...px.card }}
@@ -107,7 +105,6 @@ export default function Home() {
                 />
               </div>
 
-              {/* [2] VENUSAUR — WIN REWARDS */}
               <div
                 className="relative flex flex-col justify-between p-4 cursor-pointer group overflow-hidden"
                 style={{ background: CARDS[2].bg, ...px.card }}
@@ -124,7 +121,6 @@ export default function Home() {
                 />
               </div>
 
-              {/* [3] BLASTOISE — Guess who? */}
               <div
                 className="relative flex flex-col justify-between p-4 cursor-pointer group overflow-hidden"
                 style={{ background: CARDS[3].bg, ...px.card }}
@@ -139,7 +135,6 @@ export default function Home() {
                 <p style={{ fontSize: "11px", lineHeight: "2" }}>GUESS<br/>WHO?</p>
               </div>
 
-              {/* [4] MEWTWO tile */}
               <div
                 className="relative flex flex-col justify-end p-4 cursor-pointer group overflow-hidden"
                 style={{ background: CARDS[4].bg, ...px.card }}
@@ -154,7 +149,6 @@ export default function Home() {
                 <p style={{ fontSize: "11px" }}>{CARDS[4].name}</p>
               </div>
 
-              {/* [5] GYARADOS */}
               <div
                 className="relative flex flex-col justify-between p-4 cursor-pointer group overflow-hidden"
                 style={{ background: CARDS[5].bg, ...px.card }}

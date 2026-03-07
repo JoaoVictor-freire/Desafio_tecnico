@@ -28,7 +28,6 @@ export function LoginForm() {
 
     return (
         <div className="min-h-screen flex flex-col items-center justify-center" style={{ background: colors.bg, ...px.font }}>
-            {/* Nav mini */}
             <Link href="/" style={{ color: colors.dark, fontSize: '8px', marginBottom: '24px', textDecoration: 'none' }}>
                 ← VOLTAR AO PORTAL
             </Link>
