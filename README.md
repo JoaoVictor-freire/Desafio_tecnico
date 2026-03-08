@@ -75,8 +75,85 @@ npm run build:frontend
 ## Testes
 
 ```bash
+# Rodar todos os testes unitários
 npm run test:backend
+
+# Modo watch (re-executa ao salvar)
+cd backend && npm run test:watch
+
+# Relatório de cobertura de código
+cd backend && npm run test:cov
 ```
+
+### Testes unitários do backend
+
+O backend possui **47 testes unitários** distribuídos em **6 suites**, cobrindo os services e controllers dos três módulos principais. Todas as dependências externas (banco de dados, JWT) são substituídas por mocks, tornando os testes rápidos e isolados.
+
+#### AuthService (`auth/auth.service.spec.ts`)
+
+| Método          | Caso testado                                              |
+|-----------------|-----------------------------------------------------------|
+| `register()`    | Retorna usuário sem campo `Password`                      |
+| `register()`    | Repassa exceção do UsersService (ex: email duplicado)     |
+| `login()`       | Retorna `access_token`, `name` e `avatar` corretos        |
+| `login()`       | Usa avatar padrão `'1'` quando `Avatar` é nulo            |
+| `login()`       | Lança `UnauthorizedException` para usuário inexistente    |
+| `login()`       | Lança `UnauthorizedException` para senha incorreta        |
+| `hashPassword()`| Retorna hash diferente da senha original                  |
+| `hashPassword()`| Hash gerado é verificável com `bcrypt.compare`            |
+
+#### UsersService (`users/users.service.spec.ts`)
+
+| Método        | Caso testado                                         |
+|---------------|------------------------------------------------------|
+| `create()`    | Cria e retorna o usuário para email novo             |
+| `create()`    | Lança `ConflictException` para email já cadastrado   |
+| `findByEmail()` | Retorna usuário quando email existe               |
+| `findByEmail()` | Retorna `null` quando email não existe            |
+| `findById()`  | Retorna usuário quando ID existe                     |
+| `findById()`  | Lança `NotFoundException` quando ID não existe       |
+| `update()`    | Atualiza campos do usuário                           |
+| `update()`    | Re-hasheia a senha quando ela é atualizada           |
+| `update()`    | Lança `NotFoundException` quando ID não existe       |
+| `remove()`    | Remove o usuário existente                           |
+| `remove()`    | Lança `NotFoundException` para ID inexistente        |
+
+#### PokemonService (`pokemon/pokemon.service.spec.ts`)
+
+| Método             | Caso testado                                           |
+|--------------------|--------------------------------------------------------|
+| `create()`         | Cria e salva o pokémon                                 |
+| `findAll()`        | Retorna lista usando query builder com JOIN ao User    |
+| `findAllByUser()`  | Retorna pokémons do usuário informado                  |
+| `findAllByUser()`  | Retorna array vazio para usuário sem pokémons          |
+| `findOne()`        | Retorna o pokémon quando ID existe                     |
+| `findOne()`        | Lança `NotFoundException` quando ID não existe         |
+| `update()`         | Atualiza campos do pokémon                             |
+| `update()`         | Lança `NotFoundException` para ID inexistente          |
+| `remove()`         | Remove o pokémon existente                             |
+| `remove()`         | Lança `NotFoundException` para ID inexistente          |
+
+#### AuthController (`auth/auth.controller.spec.ts`)
+
+| Método     | Caso testado                                    |
+|------------|-------------------------------------------------|
+| `register` | Retorna mensagem de sucesso com dados do usuário |
+| `login`    | Retorna resultado do AuthService                |
+| `logout`   | Retorna mensagem de logout                      |
+
+#### PokemonController (`pokemon/pokemon.controller.spec.ts`)
+
+| Método           | Caso testado                                             |
+|------------------|----------------------------------------------------------|
+| `create`         | Injeta `IdUser` do JWT no DTO antes de criar             |
+| `findAll`        | Retorna lista de pokémons                                |
+| `findAllByUser`  | Retorna pokémons do usuário autenticado                  |
+| `findAllByUser`  | Lança `ForbiddenException` ao acessar de outro usuário   |
+| `findOne`        | Retorna o pokémon pelo ID                                |
+| `update`         | Atualiza pokémon do próprio usuário                      |
+| `update`         | Lança `ForbiddenException` para pokémon de outro usuário |
+| `remove`         | Remove pokémon do próprio usuário                        |
+| `remove`         | Lança `ForbiddenException` para pokémon de outro usuário |
 
 ---
 
