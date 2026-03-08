@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
+import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
 import  { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { PokemonModule } from './pokemon/pokemon.module';
@@ -10,6 +12,14 @@ import { Pokemon } from './pokemon/entities/pokemon';
 @Module({
   imports: [
     ConfigModule.forRoot(),
+
+    ThrottlerModule.forRoot([
+      {
+        name: 'global',
+        ttl: 60000,
+        limit: 100,
+      },
+    ]),
 
     TypeOrmModule.forRoot({
       type: 'postgres',
@@ -26,6 +36,9 @@ import { Pokemon } from './pokemon/entities/pokemon';
     AuthModule,
     UsersModule,
     PokemonModule,
+  ],
+  providers: [
+    { provide: APP_GUARD, useClass: ThrottlerGuard },
   ],
 })
 export class AppModule {}

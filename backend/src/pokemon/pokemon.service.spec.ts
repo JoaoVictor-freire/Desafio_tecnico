@@ -3,6 +3,7 @@ import { NotFoundException } from '@nestjs/common';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { PokemonService } from './pokemon.service';
 import { Pokemon } from './entities/pokemon';
+import { User } from '../users/entities/user';
 
 const mockPokemon: Pokemon = {
   IdPokemon: 1,
@@ -12,7 +13,7 @@ const mockPokemon: Pokemon = {
   Level: 25,
   Health: 35,
   PokedexId: 25,
-  user: null,
+  user: null as unknown as User,
 };
 
 const mockQueryBuilder = {
